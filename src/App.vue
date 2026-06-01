@@ -1,25 +1,18 @@
 <script setup>
-import { reactive, ref } from 'vue';
-const deta =0;
-// const D = reactive(deta);
-// 错误写法是因为reactive只可以接受数组或对象
-const Deta = reactive({deta})
-const a =()=>{
-  Deta.deta++;
-}
+import { computed, ref } from 'vue';
 
-const deta_1=ref(0);
-const b =()=>{
+const a=ref([1,2,3,4,5,6,7,8,9]);
+const ar=computed(()=>{
 
-  deta_1.value++;
-}
-
+  return a.value.filter(item=>item>2)
+})
 </script>
-<template>
-<div>
-<button @click="a">{{ Deta.deta  }}</button>
-</div>
-<button @click="b">{{ deta_1 }}</button>
-//deta_1.value
-</template>
 
+<template>
+  <div>
+           {{ a }}
+  </div>
+  <div>
+    {{ ar }}
+  </div>
+</template>
