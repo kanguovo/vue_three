@@ -1,56 +1,60 @@
 <script setup>
+
 import { ref, watch } from 'vue';
 
-const a=ref(0);
+const ab=ref({a:0,b:0})
 const A=()=>{
-  a.value++;
+
+//aa.a++;错了应该是aa.value.a++  ref返回的是一个对象（响应式对象）
+ab.value.a++;
 
 }
-const b=ref(0);
 const B=()=>{
-  b.value++;
 
-}
-const c=ref(0);
-const C=()=>{
-  b.value++;
+
+ab.value.b++;
 
 }
 
-// watch([a,b],
-// (
-//   [new_a,old_a], 
-//   [new_b,old_b] ;
-// )=> {
-// console.log("回调函数"，[new_a,ole_a];  
-//   [new_b,old_b]; )
-// }
-//注释第三四行错了应该是[new_a,new_b],[old_a,old_b] 并且第四行不要用分号
- watch([a,b],
-(
-  [new_a,new_b], 
-  [old_a,old_b]
-)=> {
-console.log("回调函数",
-  [new_a,new_b], 
-  [old_a,old_b])
-})//watch函数第二个参数是一个函数，})在最后不要写错，另外注意打印格式，写数组的时候不要写错
-watch(c,(new_c,old_c)=>{
-console.log("回调",new_c,old_c)
-},{
-immediate:true
-}
 
 
+// watch(ab,()=>{
+// console.log("变化了")
+//  },
+// {deep:true }
+
+// ）
+
+//watch 第一个对象不用 .value
+
+ //因为这里修改的是对象里面的属性值而非对象本身，所以要用deep
+
+//ab无法指明是哪个属性改变引起的打印，需优化
+
+
+
+watch(()=>ab.value.a,()=>{           //第一个参数 不可以 ab.value.a
+console.log("变化了")
+ },
+//不用写deeple了
 )
+
+
+// const temp=ref(ab.value.b )   错误写法 导致 temp.value 和 ab.value.b是两个不同的个体了
+// watch(temp,()=>{        
+// console.log("变化了")
+//  },
+// {deep:true }
+
+// )
+
 </script>
+
+
 
 <template>
   <div>
-    <button @click="A">{{ a }}</button>
-    <button @click="B">{{ b}}</button>
-    <button @click="C">{{ c}}</button>
-   
+    <button @click="A">{{ ab.a }}</button>
+    <button @click="B">{{ ab.b }}</button>
   </div>
 </template>
-
